@@ -8,14 +8,13 @@ RUN echo "deb [trusted=yes] https://developer.download.nvidia.com/compute/cuda/r
 echo "deb [trusted=yes] https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
 
 
-ENV CUDA_VERSION 10.2.89
+ENV CUDA_VERSION 10.0.130
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 
 #ENV CUDA_PKG_VERSION 10-2_$CUDA_VERSION-1
-ENV CUDA_PKG_VERSION 10-2
+ENV CUDA_PKG_VERSION 10-0
 RUN apt-get  update --allow-unauthenticated && apt-get install -y --no-install-recommends --allow-unauthenticated \
         cuda-cudart-$CUDA_PKG_VERSION* && \
-    ln -s cuda-10.1 /usr/local/cuda && \
     rm -rf /var/lib/apt/lists/*
 
 RUN echo "/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && \
@@ -33,7 +32,7 @@ LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 
 
 RUN apt-get update && apt-get  install -y --no-install-recommends --allow-unauthenticated \
-            libcudnn8=$CUDNN_VERSION-1+cuda10.2 && \
+            libcudnn8=$CUDNN_VERSION-1+cuda10.1 && \
     apt-mark hold libcudnn8 && \
     rm -rf /var/lib/apt/lists/*
 
